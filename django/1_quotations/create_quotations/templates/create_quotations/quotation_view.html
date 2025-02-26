@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block page_title %}
+
+    Vizualizar Orçamento
+
+{% endblock page_title %}
+
+{% block content %}      
+
+    <form method="post">
+        {% csrf_token %}
+
+        <p><strong>Código da Proposta:</strong> {{ quotation.proposal_id }}</p>
+        <p><strong>Data de Criação:</strong> {{ quotation.creation_date }}</p>
+        <p><strong>Versão:</strong> {{ quotation.quotation_version }}</p>
+        <p><strong>Nome do Cliente:</strong> {{ quotation.client_name }}</p>
+        <p><strong>Comissão:</strong> {{ quotation.vendor_comission }}%</p>
+        <p><strong>Estado da Venda:</strong> {{ quotation.get_state_display }}</p>
+        <p><strong>DIFAL:</strong> {{ quotation.get_difal_check_display }}</p>
+
+        <button type="submit">Gerar Nova Revisão</button>
+    </form>
+    
+{% endblock content %}

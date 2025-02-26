@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+    Detalhes da Cotação - Equipamentos
+{% endblock page_title %}
+
+{% block content %}
+    <h1>Detalhes da Cotação</h1>
+    <p><strong>Nome do Cliente:</strong> {{ quotation.client_name }}</p>
+    <p><strong>Data de Criação:</strong> {{ quotation.creation_date }}</p>
+
+    <h2>Equipamentos da Cotação</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nome do Equipamento</th>
+                <th>Quantidade</th>
+                <th>Preço Unitário</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipment in equipments %}
+                <tr>
+                    <td>{{ equipment.name }}</td>
+                    <td>{{ equipment.quantity }}</td>
+                    <td>{{ equipment.price }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">Nenhum equipamento encontrado para esta cotação.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

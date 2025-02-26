@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block page_title %}
+
+Lista de Orçamentos
+
+{% endblock page_title %}
+
+{% block content %}      
+
+<a href="{% url "create_quotations" %}" class="btn btn-success">Nova Solicitação</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID Proposta</th>
+            <th scope="col">Revisão</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Criado em</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for quotation in quotations %}
+                <tr>
+                    <th scope="row">{{ quotation.proposal_id }}</th>
+                    <td>{{ quotation.quotation_version }}</td>
+                    <td>{{ quotation.client_name }}</td>
+                    <td>{{ quotation.get_state_display }}</td>
+                    <td>{{ quotation.creation_date|default:"-"|date:"d/m/Y H:i" }}</td>
+                    <td>
+                      <a href="{% url 'quotation_view' quotation.tracking_uuid %}" class="btn btn-secondary btn-sm">Ver detalhes</a>
+                    </td>
+                </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">Nenhum orçamento encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

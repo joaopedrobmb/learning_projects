@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block page_title %}
+
+    Criar Orçamento
+
+{% endblock page_title %}
+
+{% block content %}      
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ quotation_form.as_p}}
+        
+        <button type="submit" class="btn btn-success" >Adicionar equipamentos</button>
+    </form>
+    
+{% endblock content %}
