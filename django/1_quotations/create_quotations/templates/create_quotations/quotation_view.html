@@ -3,24 +3,48 @@
 
 {% block page_title %}
 
-    Vizualizar Orçamento
+    Visualizar Orçamento
 
 {% endblock page_title %}
 
 {% block content %}      
 
-    <form method="post">
-        {% csrf_token %}
+    <p><strong>Código da Proposta:</strong> {{ quotation.proposal_id }}</p>
+    <p><strong>Data de Criação:</strong> {{ quotation.creation_date }}</p>
+    <p><strong>Versão:</strong> {{ quotation.quotation_version }}</p>
+    <p><strong>Nome do Cliente:</strong> {{ quotation.client_name }}</p>
+    <p><strong>Comissão:</strong> {{ quotation.vendor_comission }}%</p>
+    <p><strong>Estado da Venda:</strong> {{ quotation.get_state_display }}</p>
+    <p><strong>DIFAL:</strong> {{ quotation.get_difal_check_display }}</p>
+    
+    <hr>
 
-        <p><strong>Código da Proposta:</strong> {{ quotation.proposal_id }}</p>
-        <p><strong>Data de Criação:</strong> {{ quotation.creation_date }}</p>
-        <p><strong>Versão:</strong> {{ quotation.quotation_version }}</p>
-        <p><strong>Nome do Cliente:</strong> {{ quotation.client_name }}</p>
-        <p><strong>Comissão:</strong> {{ quotation.vendor_comission }}%</p>
-        <p><strong>Estado da Venda:</strong> {{ quotation.get_state_display }}</p>
-        <p><strong>DIFAL:</strong> {{ quotation.get_difal_check_display }}</p>
-
-        <button type="submit">Gerar Nova Revisão</button>
-    </form>
+    <h3>Produtos</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Diâmetro</th>
+                <th>Comprimento Cilíndrico</th>
+                <th>Volume</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.product_type }}</td>
+                <td>{{ product.product_model }}</td>
+                <td>{{ product.diameter }}</td>
+                <td>{{ product.cylindrical_length }}</td>
+                <td>{{ product.volume }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Nenhum produto adicionado ainda.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     
 {% endblock content %}

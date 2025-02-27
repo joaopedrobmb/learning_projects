@@ -1,35 +1,36 @@
 {% extends "base.html" %}
 
 {% block page_title %}
-    Detalhes da Cotação - Equipamentos
+    Detalhes do orçamento - Equipamentos
 {% endblock page_title %}
 
 {% block content %}
-    <h1>Detalhes da Cotação</h1>
+    <h2>{{quotation.proposal_id}} - Revisão {{quotation.quotation_version}}</h2>
     <p><strong>Nome do Cliente:</strong> {{ quotation.client_name }}</p>
     <p><strong>Data de Criação:</strong> {{ quotation.creation_date }}</p>
 
-    <h2>Equipamentos da Cotação</h2>
-    <table border="1">
+    <a href="{% url "insert_product" %}" class="btn btn-success">Adicionar produto</a>
+    <table class="table">
         <thead>
-            <tr>
-                <th>Nome do Equipamento</th>
-                <th>Quantidade</th>
-                <th>Preço Unitário</th>
-                <th>Total</th>
-            </tr>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Modelo</th>
+
+        </tr>
         </thead>
         <tbody>
             {% for equipment in equipments %}
                 <tr>
-                    <td>{{ equipment.name }}</td>
-                    <td>{{ equipment.quantity }}</td>
-                    <td>{{ equipment.price }}</td>
+                    <th scope="row">{{ equipment.id }}</th>
+                    <td>{{ equipment.product_type }}</td>
+                    <td>{{ equipment.procut_model }}</td>
+
                 </tr>
             {% empty %}
-                <tr>
-                    <td colspan="4">Nenhum equipamento encontrado para esta cotação.</td>
-                </tr>
+            <tr>
+                <td colspan="5">Nenhum equipamento encontrado.</td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>

@@ -6,7 +6,8 @@ class QuotationForm(forms.ModelForm):
         model = Quotation
         fields = '__all__'
 
-class EquipmentForm(forms.ModelForm):
+class ProductForm(forms.ModelForm):
     class Meta:
         model = Tank
         fields = '__all__'
+        exclude = ['quotation', 'volume']

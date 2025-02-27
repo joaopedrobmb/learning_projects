@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from create_quotations.calc_module.utils import math, data_loader
 
 # Create your models here.
 
@@ -21,15 +22,17 @@ class Quotation(models.Model):
                                             ("Não", "Não")])
 
 class Product(models.Model):
-    quotation = models.ForeignKey(Quotation, related_name='equipments', on_delete=models.CASCADE)
-    product_type = models.IntegerField(verbose_name="Tipo do Produto", null=False, blank=False, 
-                                   choices= [("TAV", "Tanque Vertical p/ Armazenamento"),
+    quotation = models.ForeignKey(Quotation, related_name='products', on_delete=models.CASCADE)
+    product_type = models.CharField(verbose_name="Tipo", null=False, blank=False, max_length=200, 
+                                   choices= [("TA", "Tanque para Armazenamento"),
                                              ("TA", "Tanque Agitador"),
-                                             ("VP", "Vaso de Pressão")])
-    product_model = models.IntegerField(verbose_name="Tipo do Produto", null=False, blank=False, 
+                                             ("VP", "Vaso de Pressão"),
+                                             ("SE", "Serviço")])
+    product_model = models.CharField(verbose_name="Modelo", null=False, blank=False, max_length=200, 
                                    choices= [("FPTE", "Fundo Plano/Tampo Elíptico"),
                                              ("FPTP", "Fundo Plano/Tampo Plano"),
-                                             ("FETE", "Fundo Elíptico/Tampo Elíptico")])
+                                             ("FETE", "Fundo Elíptico/Tampo Elíptico"),
+                                             ("MAN", "Manutenção" )])
     
     class Meta:
         abstract = True #Define como uma classe abstrata, não será criada uma tabela para ela.
@@ -38,6 +41,14 @@ class Tank(Product):
     diameter = models.IntegerField(verbose_name="Diâmetro Interno", null=False, blank=False, 
                                    choices= [(1000, "1000 mm"),
                                              (2500, "2500 mm")])
-    
     cylindrical_length = models.IntegerField(verbose_name="Comprimento Cilíndrico",
                                              null=False, blank=False)
+    volume = models.IntegerField(verbose_name="Volume", null=True, blank=True)
+    
+    def calculate_volume(self):
+        return round(math.calculate_volume_tank(self.diameter, self.cylindrical_length), 2)
+    
+    def save(self, *args, **kwargs):
+        """Sobrescreve o método save para calcular o volume automaticamente"""
+        self.volume = self.calculate_volume()  # Calcula o volume e atribui ao campo
+        super().save(*args, **kwargs)  # Salva a instância no banco de dados

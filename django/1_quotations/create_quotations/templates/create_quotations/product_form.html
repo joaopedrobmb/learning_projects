@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block page_title %}
+
+    Criar Orçamento
+
+{% endblock page_title %}
+
+{% block content %}    
+
+    <h2>{{ quotation.client_name }}</h2> 
+    <p>Orçamento: {{ quotation.proposal_id }}</p>
+
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4">
+                {{ product_form.product_type|as_crispy_field  }}
+                {{ product_form.product_model|as_crispy_field  }}
+            </div>
+            <div class="col-md-4">
+  
+            </div>
+        </div>
+
+            <button type="submit" class="btn btn-success" >Adicionar equipamento</button>
+        <hr>
+    </form>
+    
+{% endblock content %}

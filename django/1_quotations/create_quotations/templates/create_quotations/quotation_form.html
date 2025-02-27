@@ -12,9 +12,33 @@
     <form method="post">
         {% csrf_token %}
 
-        {{ quotation_form.as_p}}
+        {{ quotation_form|crispy }}
+        <hr>
         
-        <button type="submit" class="btn btn-success" >Adicionar equipamentos</button>
-    </form>
+    <h3>Produtos</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Preço Unitário</th>
+                <th>Preço Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.product_type }}</td>
+                <td>{{ product.product_model }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Nenhum produto adicionado ainda.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-success" >Adicionar equipamentos</button>
+</form>
     
 {% endblock content %}
